@@ -9,7 +9,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class ItemHandler {
     private static final DeferredRegister<Item> items = DeferredRegister.create(ForgeRegistries.ITEMS, WildMod.id);
-    private static final AirSackItem air_sack = new AirSackItem(new Item.Properties().group(ItemGroup.MISC));
+    private static final AirSackItem air_sack = new AirSackItem(new Item.Properties().maxStackSize(1).group(ItemGroup.MISC));
 
     public static void init() {
         registerItem(air_sack, "air_sack");

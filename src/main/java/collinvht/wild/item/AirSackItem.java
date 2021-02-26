@@ -1,13 +1,18 @@
 package collinvht.wild.item;
 
 import collinvht.wild.WildMod;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -17,8 +22,7 @@ import java.util.List;
 
 public class AirSackItem extends Item {
     public AirSackItem(Properties properties) {
-        super(properties);
-
+        super(properties.defaultMaxDamage(10));
     }
 
 
@@ -32,13 +36,6 @@ public class AirSackItem extends Item {
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        CompoundNBT nbt = stack.getOrCreateTag().getCompound("Air");
-        double air = nbt.getDouble("Air");
-        tooltip.add(new TranslationTextComponent("cur.air : " + air));
-    }
-
-    @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
         ItemStack stack = playerIn.getHeldItem(handIn);
         CompoundNBT nbt = stack.getOrCreateTag();
@@ -46,19 +43,49 @@ public class AirSackItem extends Item {
         double air = nbt.getDouble("Air");
         if(playerIn.isInWater()) {
             if(playerIn.getAir() < playerIn.getMaxAir() && air >= 0.1D) {
-                nbt.putDouble("Air", Math.max(air - 0.1D, 0.0D));
+                nbt.putDouble("Air", Math.max(air - 0.3D, 0.0D));
+
+                for(int i = 0; i<13; i++)
+                    playerIn.getEntityWorld().addParticle(ParticleTypes.BUBBLE_COLUMN_UP,true, playerIn.getPosXRandom(0.5), playerIn.getPosY()- 0.5D, playerIn.getPosZRandom(0.5D),  0.5, 2, 0.5);
                 playerIn.getCooldownTracker().setCooldown(this, 5);
 
                 playerIn.setAir(Math.min(playerIn.getAir() + 50, playerIn.getMaxAir()));
             }
-        } else if(air != 1.0) {
-            nbt.putDouble("Air", 1.0D);
-            playerIn.getCooldownTracker().setCooldown(this, 25);
+        }
+        if (air != 1.0) {
+            if (playerIn.getEntityWorld().getBlockState(new BlockPos(playerIn.getPosition().getX(), playerIn.getPosition().getY() + 1, playerIn.getPosition().getZ())).getBlock().matchesBlock(Blocks.AIR) || playerIn.world.getBlockState(playerIn.getPosition()).isIn(Blocks.BUBBLE_COLUMN)) {
+                nbt.putDouble("Air", Math.min(air + 0.3D, 1.0D));
+                playerIn.getCooldownTracker().setCooldown(this, 25);
+            }
         }
 
-        WildMod.LOGGER.warn(air);
+        if(air > 1) {
+            nbt.putDouble("Air", 1.0D);
+        }
+        air = nbt.getDouble("Air");
 
+        if(air < 0.7 && air > 0.2) {
+            air = 0.4;
+        } else if(air < 0.2) {
+            air = 0.1;
+        }
 
-        return ActionResult.resultPass(playerIn.getHeldItem(handIn));
+        updateDamage(stack, air, 1, 0);
+        updateDamage(stack, air, 0.7, 3);
+        updateDamage(stack, air, 0.4, 6);
+        updateDamage(stack, air, 0.1, 10);
+
+        if(air == 0.1 || air == 1) {
+            return ActionResult.resultPass(stack);
+        }
+
+        return ActionResult.resultSuccess(stack);
+    }
+
+    void updateDamage(ItemStack stack, double air, double targetAir, int damage) {
+        if(air == targetAir) {
+            stack.setDamage(damage);
+
+        }
     }
 }
