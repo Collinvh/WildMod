@@ -14,6 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
@@ -22,6 +23,8 @@ import javax.annotation.Nullable;
 public class RedPandaEntity extends AnimalEntity {
     public RedPandaEntity(EntityType<? extends RedPandaEntity> type, World worldIn) {
         super(type, worldIn);
+        this.setPathPriority(PathNodeType.WALKABLE, 20);
+        this.setPathPriority(PathNodeType.WATER, 0);
     }
 
     public static AttributeModifierMap.MutableAttribute func_234204_eW_() {

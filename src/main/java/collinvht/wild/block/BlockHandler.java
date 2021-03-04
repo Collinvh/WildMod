@@ -5,17 +5,20 @@ import collinvht.wild.item.ItemHandler;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.SoundType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class BlockHandler {
     private static final DeferredRegister<Block> blocks = DeferredRegister.create(ForgeRegistries.BLOCKS, WildMod.id);
+    public static final CompactorBlock COMPACTOR = new CompactorBlock(AbstractBlock.Properties.from(Blocks.STONE).sound(SoundType.WOOD));
 
     public static void init() {
-        registerBlock(new Block(AbstractBlock.Properties.from(Blocks.POLISHED_DIORITE)), "test");
+        registerBlock(COMPACTOR, "compactor", new Item.Properties().group(ItemGroup.DECORATIONS));
     }
 
 

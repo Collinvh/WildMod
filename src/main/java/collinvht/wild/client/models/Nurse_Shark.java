@@ -10,7 +10,7 @@ import net.minecraft.util.math.MathHelper;
  * Nurse_shark - Loxures
  * Created using Tabula 7.1.0
  */
-public class NurseShark extends AgeableModel<NurseSharkEntity> {
+public class Nurse_Shark extends AgeableModel<NurseSharkEntity> {
     public ModelRenderer Body;
     public ModelRenderer Tail;
     public ModelRenderer FrontRightFin;
@@ -24,7 +24,7 @@ public class NurseShark extends AgeableModel<NurseSharkEntity> {
     public ModelRenderer Tail2;
     public ModelRenderer BottomFin2;
 
-    public NurseShark() {
+    public Nurse_Shark() {
         this.textureWidth = 200;
         this.textureHeight = 100;
         this.FrontRightFin = new ModelRenderer(this, 40, 67);

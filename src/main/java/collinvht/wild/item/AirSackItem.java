@@ -1,24 +1,15 @@
 package collinvht.wild.item;
 
-import collinvht.wild.WildMod;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class AirSackItem extends Item {
     public AirSackItem(Properties properties) {
@@ -45,8 +36,8 @@ public class AirSackItem extends Item {
             if(playerIn.getAir() < playerIn.getMaxAir() && air >= 0.1D) {
                 nbt.putDouble("Air", Math.max(air - 0.3D, 0.0D));
 
-                for(int i = 0; i<13; i++)
-                    playerIn.getEntityWorld().addParticle(ParticleTypes.BUBBLE_COLUMN_UP,true, playerIn.getPosXRandom(0.5), playerIn.getPosY()- 0.5D, playerIn.getPosZRandom(0.5D),  0.5, 2, 0.5);
+                for(int i = 0; i<random.nextInt(40); i++)
+                    playerIn.getEntityWorld().addParticle(ParticleTypes.BUBBLE_COLUMN_UP,false, playerIn.getPosXRandom(0.4), (playerIn.getPosYHeight(0.4) )- 0.5D, playerIn.getPosZRandom(0.5D),  0.5, 2, 0.5);
                 playerIn.getCooldownTracker().setCooldown(this, 5);
 
                 playerIn.setAir(Math.min(playerIn.getAir() + 50, playerIn.getMaxAir()));

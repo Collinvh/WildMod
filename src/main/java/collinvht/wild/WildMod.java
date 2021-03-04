@@ -1,10 +1,9 @@
 package collinvht.wild;
 
 import collinvht.wild.block.BlockHandler;
+import collinvht.wild.client.gui.Guis;
 import collinvht.wild.entity.EntityHandler;
-import collinvht.wild.entity.entities.BluePinguinEntity;
-import collinvht.wild.entity.entities.NurseSharkEntity;
-import collinvht.wild.entity.entities.RedPandaEntity;
+import collinvht.wild.entity.entities.*;
 import collinvht.wild.item.ItemHandler;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraftforge.fml.common.Mod;
@@ -28,7 +27,10 @@ public class WildMod
         EntityHandler.init();
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
+
+        Guis.RECIPE_SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
+
 
     private void setup(final FMLCommonSetupEvent event) {
 
@@ -37,6 +39,10 @@ public class WildMod
         GlobalEntityTypeAttributes.put(EntityHandler.red_panda, RedPandaEntity.func_234204_eW_().create());
         GlobalEntityTypeAttributes.put(EntityHandler.blue_pinguin, BluePinguinEntity.func_234204_eW_().create());
         GlobalEntityTypeAttributes.put(EntityHandler.nurse_shark, NurseSharkEntity.func_234204_eW_().create());
+        GlobalEntityTypeAttributes.put(EntityHandler.whale_shark, WhaleSharkEntity.func_234204_eW_().create());
+        GlobalEntityTypeAttributes.put(EntityHandler.eland, ElandEntity.createAttributeMap().create());
+        GlobalEntityTypeAttributes.put(EntityHandler.cleopard, CloudedLeopardEntity.createAttributeMap().create());
+        GlobalEntityTypeAttributes.put(EntityHandler.ringneckedpheasant, RingNeckedPheasantEntity.createAttributeMap().create());
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {

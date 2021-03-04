@@ -2,8 +2,6 @@ package collinvht.wild.client.models;
 
 import collinvht.wild.entity.entities.BluePinguinEntity;
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.AgeableModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -15,7 +13,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
  * lilBluePenguin - TheMapleMoose Created using Tabula 8.0.0
  */
 @OnlyIn(Dist.CLIENT)
-public class BluePinguin extends AgeableModel<BluePinguinEntity>
+public class Blue_Pinguin extends AgeableModel<BluePinguinEntity>
 {
     public final ModelRenderer body;
     public final ModelRenderer head;
@@ -29,7 +27,7 @@ public class BluePinguin extends AgeableModel<BluePinguinEntity>
     public final float defaultXLWing = -0.19547687289441354F;
     public final float defaultXRWing = -0.19547687289441354F;
 
-    public BluePinguin()
+    public Blue_Pinguin()
     {
         super(true, 8.0F, 3.35F);
         this.textureWidth = 64;
@@ -122,12 +120,6 @@ public class BluePinguin extends AgeableModel<BluePinguinEntity>
         this.setRotateAngle(rightweeng, -0.19547687289441354F, 0.0F, 0.0F);
         this.setRotateAngle(leftfoot, 0.0F, 0.0F, 0.0F);
         this.setRotateAngle(rightfoot, 0.0F, 0.0F, 0.0F);
-    }
-
-    @Override
-    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha)
-    {
-        super.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
 
     @Override

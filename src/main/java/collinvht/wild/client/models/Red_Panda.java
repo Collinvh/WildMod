@@ -10,7 +10,7 @@ import net.minecraft.util.math.MathHelper;
  * Red panda - Loxures
  * Created using Tabula 7.1.0
  */
-public class Redpanda extends AgeableModel<RedPandaEntity> {
+public class Red_Panda extends AgeableModel<RedPandaEntity> {
     public ModelRenderer RightLeg;
     public ModelRenderer Body;
     public ModelRenderer LeftLeg;
@@ -24,7 +24,7 @@ public class Redpanda extends AgeableModel<RedPandaEntity> {
     public ModelRenderer Head2;
     public ModelRenderer LeftEar;
 
-    public Redpanda() {
+    public Red_Panda() {
         super(true, 8.0F, 3.35F);
         this.textureWidth = 90;
         this.textureHeight = 100;

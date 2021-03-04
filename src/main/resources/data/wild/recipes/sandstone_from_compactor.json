@@ -1,0 +1,9 @@
+{
+  "type": "wild:compactor",
+  "ingredient": {
+    "item": "minecraft:sand",
+    "count": 2
+  },
+  "result": "minecraft:sandstone",
+  "count": 1
+}

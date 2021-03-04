@@ -1,15 +1,15 @@
 package collinvht.wild.client.renders;
 
 import collinvht.wild.WildMod;
-import collinvht.wild.client.models.NurseShark;
+import collinvht.wild.client.models.Nurse_Shark;
 import collinvht.wild.entity.entities.NurseSharkEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class NurseSharkRender extends LivingRenderer<NurseSharkEntity, NurseShark> {
+public class NurseSharkRender extends LivingRenderer<NurseSharkEntity, Nurse_Shark> {
     public NurseSharkRender(EntityRendererManager rendererManager) {
-        super(rendererManager, new NurseShark(), 0.2F);
+        super(rendererManager, new Nurse_Shark(), 0.2F);
     }
 
     @Override

@@ -8,7 +8,6 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.passive.WaterMobEntity;
-import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.pathfinding.PathType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -20,7 +19,6 @@ import javax.annotation.Nullable;
 public class NurseSharkEntity extends WaterMobEntity {
     public NurseSharkEntity(EntityType<? extends NurseSharkEntity> type, World worldIn) {
         super(type, worldIn);
-        this.setPathPriority(PathNodeType.WATER, 0.0F);
         this.moveController = new MoveHelperController(this);
     }
 
@@ -30,7 +28,7 @@ public class NurseSharkEntity extends WaterMobEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new RandomSwimmingGoal(this, 1D, 1));
+        this.goalSelector.addGoal(1, new RandomSwimmingGoal(this, 0.5D, 1));
     }
 
     public void travel(Vector3d travelVector) {

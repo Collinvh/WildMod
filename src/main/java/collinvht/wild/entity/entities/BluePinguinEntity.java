@@ -72,7 +72,7 @@ public class BluePinguinEntity extends AnimalEntity {
         this.goalSelector.addGoal(3, new BreedGoal(this, 0.5D));
         this.goalSelector.addGoal(0, new FollowParentGoal(this, 0.2D));
         this.barrelRollGoal = new BarrelRollGoal(this);
-        //this.goalSelector.addGoal(2, this.barrelRollGoal);
+        this.goalSelector.addGoal(2, this.barrelRollGoal);
     }
 
     @Override
