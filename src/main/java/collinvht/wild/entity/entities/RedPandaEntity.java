@@ -1,9 +1,12 @@
 package collinvht.wild.entity.entities;
 
 import collinvht.wild.entity.EntityHandler;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
@@ -15,10 +18,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.pathfinding.PathNodeType;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class RedPandaEntity extends AnimalEntity {
     public RedPandaEntity(EntityType<? extends RedPandaEntity> type, World worldIn) {
@@ -34,14 +41,15 @@ public class RedPandaEntity extends AnimalEntity {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, PlayerEntity.class, 12.0F, 0.8D, 1D));
+        this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, MonsterEntity.class, 12.0F, 0.8D, 1D));
+        this.goalSelector.addGoal(0, new AvoidEntityGoal<>(this, PandaEntity.class, 14.0F, 0.8D, 1D));
         this.goalSelector.addGoal(0, new PanicGoal(this, 1D));
         this.goalSelector.addGoal(0, new FollowParentGoal(this, 0.4D));
         this.goalSelector.addGoal(1, new WaterAvoidingRandomWalkingGoal(this, 0.5D));
         this.goalSelector.addGoal(2, new BreedGoal(this, 0.4D));
         this.goalSelector.addGoal(3, new TemptGoal(this, 0.5, Ingredient.fromItems(Items.BAMBOO), true));
         this.goalSelector.addGoal(4, new FleeSunGoal(this, 0.5D));
-        this.goalSelector.addGoal(6, new AvoidEntityGoal<>(this, MonsterEntity.class, 12.0F, 0.8D, 1D));
-        this.goalSelector.addGoal(6, new AvoidEntityGoal<>(this, PandaEntity.class, 14.0F, 0.8D, 1D));
         this.goalSelector.addGoal(7, new LookAtGoal(this, AnimalEntity.class, 10));
         this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 10));
     }
@@ -55,5 +63,10 @@ public class RedPandaEntity extends AnimalEntity {
     @Override
     public boolean isBreedingItem(ItemStack stack) {
         return stack.getItem() == Items.BAMBOO.getItem();
+    }
+
+    public static <T extends MobEntity> boolean func_223317_c(EntityType<T> tEntityType, IServerWorld iServerWorld, SpawnReason spawnReason, BlockPos blockPos, Random random) {
+        BlockState blockstate = iServerWorld.getBlockState(blockPos.down());
+        return (blockstate.isIn(BlockTags.LEAVES) || blockstate.isIn(Blocks.GRASS_BLOCK) || blockstate.isIn(BlockTags.LOGS));
     }
 }

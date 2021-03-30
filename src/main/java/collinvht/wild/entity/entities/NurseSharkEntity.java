@@ -1,20 +1,28 @@
 package collinvht.wild.entity.entities;
 
 
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.MovementController;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
+import net.minecraft.entity.monster.DrownedEntity;
+import net.minecraft.entity.passive.PolarBearEntity;
 import net.minecraft.entity.passive.WaterMobEntity;
 import net.minecraft.pathfinding.PathType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class NurseSharkEntity extends WaterMobEntity {
     public NurseSharkEntity(EntityType<? extends NurseSharkEntity> type, World worldIn) {
@@ -29,6 +37,9 @@ public class NurseSharkEntity extends WaterMobEntity {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new RandomSwimmingGoal(this, 0.5D, 1));
+        this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 0, true));
+        this.goalSelector.addGoal(0, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, DrownedEntity.class, true));
     }
 
     public void travel(Vector3d travelVector) {
@@ -47,6 +58,10 @@ public class NurseSharkEntity extends WaterMobEntity {
     @Override
     public boolean isPushedByWater() {
         return false;
+    }
+
+    public static <T extends MobEntity> boolean func_223363_b(EntityType<T> tEntityType, IServerWorld iServerWorld, SpawnReason spawnReason, BlockPos blockPos, Random random) {
+        return iServerWorld.getBlockState(blockPos).isIn(Blocks.WATER) && iServerWorld.getBlockState(blockPos.up()).isIn(Blocks.WATER);
     }
 
     static class MoveHelperController extends MovementController {

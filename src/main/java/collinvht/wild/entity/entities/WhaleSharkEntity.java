@@ -1,12 +1,18 @@
 package collinvht.wild.entity.entities;
 
 import collinvht.wild.WildMod;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.MovementController;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.monster.DrownedEntity;
+import net.minecraft.entity.passive.PolarBearEntity;
 import net.minecraft.entity.passive.WaterMobEntity;
+import net.minecraft.entity.passive.fish.AbstractFishEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.PathNavigator;
@@ -17,11 +23,14 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.IServerWorld;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class WhaleSharkEntity extends WaterMobEntity {
     private int cooldown;
@@ -62,21 +71,22 @@ public class WhaleSharkEntity extends WaterMobEntity {
             BlockPos pos2 = new BlockPos(getPosX() +5, getPosY() -6, getPosZ() +5);
             List<Entity> entities = world.getLoadedEntitiesWithinAABB(PlayerEntity.class, new AxisAlignedBB(pos1, pos2));
 
-            WildMod.LOGGER.warn(entities.toString());
-
             ArrayList<PlayerEntity> playerEntities = new ArrayList<>();
             entities.forEach(entity -> {
-                WildMod.LOGGER.warn(entity.getName().toString());
                 if(entity instanceof PlayerEntity) {
                     playerEntities.add((PlayerEntity) entity);
                 }
             });
 
             playerEntities.forEach(playerEntity -> {
-                WildMod.LOGGER.warn(playerEntity.getName().toString());
+                if(rand.nextBoolean() && rand.nextInt() == 0) {
+                    playerEntity.giveExperiencePoints(100);
+                }
+
                 if(playerEntity.getAir() > (playerEntity.getMaxAir() - 50)) {
                     return;
                 }
+
                 playerEntity.setAir(Math.min(playerEntity.getAir() + 50, playerEntity.getMaxAir()));
             });
 
@@ -105,6 +115,9 @@ public class WhaleSharkEntity extends WaterMobEntity {
 
     }
 
+    public static boolean func_223363_b(EntityType<? extends WhaleSharkEntity> type, IWorld worldIn, SpawnReason reason, BlockPos p_223363_3_, Random randomIn) {
+        return worldIn.getBlockState(p_223363_3_).isIn(Blocks.WATER) && worldIn.getBlockState(p_223363_3_.up()).isIn(Blocks.WATER);
+    }
 
     static class MoveHelperController extends MovementController {
         private final WhaleSharkEntity dolphin;

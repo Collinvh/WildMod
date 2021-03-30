@@ -44,6 +44,7 @@ public class WildMod
         GlobalEntityTypeAttributes.put(EntityHandler.cleopard, CloudedLeopardEntity.createAttributeMap().create());
         GlobalEntityTypeAttributes.put(EntityHandler.ringneckedpheasant, RingNeckedPheasantEntity.createAttributeMap().create());
         GlobalEntityTypeAttributes.put(EntityHandler.beetleEntity, BeetleEntity.createAttributeMap().create());
+        GlobalEntityTypeAttributes.put(EntityHandler.flyEntity, FlyEntity.createAttributeMap().create());
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
